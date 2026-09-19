@@ -17,10 +17,10 @@ An authentic, animated, pixel-perfect Minecraft contribution card for your GitHu
 
 ## 🎮 Features
 
-- **52-Week Contribution Grid**: Authentic Minecraft blocks representing your commit history (Stone, Lush Vines, Gold, Diamond).
+- **52-Week Contribution Grid** : Shows your contribution graph
 - **Animated Soul Fire Streak Badge**: Tracks and animates your continuous commit streak.
 - **Dynamic HUD**:
-  - **Hearts (Health)**: Drops if you stay inactive for too long.
+  - **Hearts (Health)**: Drops after hunger is depleted, regenerates at full hunger.
   - **Hunger Points (Food)**: Depletes gradually with inactivity.
 - **Experience Bar**: Minecraft curve XP calculation based on your lifetime GitHub commits.
 - **Language Hotbar**: 9-slot inventory displaying your top repository languages with authentic pixel icons and percentages.
