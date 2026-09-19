@@ -75,8 +75,7 @@ jobs:
 
       - name: Generate Minecraft Profile Card
         uses: mertcetn/minecraft-github-profile@main
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+        # Zero configuration! Built-in token is used automatically.
 ```
 
 ### Step 3: Run the workflow!
@@ -90,10 +89,32 @@ Once finished, it will automatically create an `output` branch hosting your anim
 
 | Input | Description | Required | Default |
 | :--- | :--- | :---: | :--- |
-| `github_token` | GitHub token for querying GraphQL API and pushing to the branch | **No** | `${{ github.token }}` |
+| `github_token` | GitHub token for querying GraphQL API and deploying assets | **No** | `${{ github.token }}` |
 | `github_username` | GitHub user to generate stats for | **No** | `${{ github.repository_owner }}` |
 | `start_year` | Year to start fetching contribution history from | **No** | `'2020'` |
 | `output_branch` | Branch name where generated assets are stored | **No** | `'output'` |
+
+---
+
+### 🔒 About `github_token` & Private Repositories
+
+#### 1. Default Mode (Zero Setup - Recommended)
+By default, you don't even need to pass a token. The action automatically uses GitHub's built-in `${{ github.token }}`:
+- Safely accesses your public repositories and contribution calendar.
+- **Private Contribution Counts**: If you enable **"Include private contributions on my profile"** in your GitHub account settings, GitHub's API automatically includes your private commit counts in the grid, streaks, and XP level calculations without exposing any repository names or code!
+
+#### 2. Optional: Accessing Private Repos for Language Stats
+If you want the **Language Hotbar** (inventory slots) to also analyze source code from your private repositories, you can create a Personal Access Token (PAT) with `repo` read access:
+- **Fine-grained PAT**: Select **"Only select repositories"** to grant access only to chosen private repos.
+- **Classic PAT**: Check the **`repo`** scope for access across all private repos.
+
+Add the PAT as a secret in your repository settings (e.g. `PAT_TOKEN`) and pass it to the action:
+```yaml
+      - name: Generate Minecraft Profile Card
+        uses: mertcetn/minecraft-github-profile@main
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
+```
 
 ---
 
