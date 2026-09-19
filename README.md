@@ -9,7 +9,7 @@ An authentic, animated, pixel-perfect Minecraft contribution card for your GitHu
 
 <br />
 
-<img src="https://raw.githubusercontent.com/mertcetn/mertcetn/output/assets/source/generated/profile-card.gif" width="850" alt="Minecraft Profile Card Preview" />
+<img src="./assets/preview.gif" width="850" alt="Minecraft Profile Card Preview" />
 
 </div>
 
