@@ -246,7 +246,7 @@ async function generateCard() {
   const clipRight = Math.max(0, Math.min(100, 100 - xpInfo.progressPercent)).toFixed(1);
   html = html.replace(xpFillRegex, `$1${clipRight}$2`);
 
-  const xpTextRegex = /--\/--/;
+  const xpTextRegex = /Total commits:\s*[\d\-]+(?:\s*\/\s*[\d\-]+)?|--\/--/i;
   html = html.replace(xpTextRegex, `Total commits: ${data.totalAllTime} / ${xpInfo.commitsForNextLevel}`);
 
   // 6b. Hearts & Food Points
