@@ -5,6 +5,7 @@ const puppeteer = require('puppeteer');
 const { PNG } = require('pngjs');
 const { GIFEncoder, quantize, applyPalette } = require('gifenc');
 const { fetchUserData } = require('./fetch-data');
+const { ensureIconsForLanguages } = require('./language-icons');
 
 // Quadratic curve fitting: (0, 0), (10, 50), (30, 300)
 // C(L) = 0.25 * L^2 + 2.5 * L
@@ -292,24 +293,17 @@ async function generateCard() {
     `<!-- HUD_FOOD_START -->\n                    <div class="flex items-center gap-[3px] flex-row-reverse mb-[7px]" id="hud-food">\n${foodElements.join('\n')}\n                    </div>\n                    <!-- HUD_FOOD_END -->`
   );
 
-  // 7. Dynamic Hotbar Slots (Top Languages)
-  const ICON_MAP = {
-    'TypeScript': 'typescript.svg',
-    'JavaScript': 'javascript.svg',
-    'HTML': 'html5.svg',
-    'C#': 'csharp.svg',
-    'CSS': 'css3.svg',
-    'Java': 'java.svg',
-    'Python': 'python.svg'
-  };
-
+  // 7. Dynamic Hotbar Slots (Top Languages with Internet Icon Fetching)
   if (data.languages && data.languages.length > 0) {
+    console.log(`Ensuring icons for ${data.languages.length} top languages...`);
+    const iconMap = await ensureIconsForLanguages(data.languages);
+
     const hotbarSlots = [];
     let slotIndex = 1;
 
     for (const lang of data.languages) {
       if (slotIndex > 9) break;
-      const icon = ICON_MAP[lang.name];
+      const icon = iconMap[lang.name];
       if (icon) {
         hotbarSlots.push(`                <!-- Slot ${slotIndex}: ${lang.name} -->
                 <div class="mc-slot aspect-square flex items-center justify-center relative group cursor-pointer hover:bg-[#202026] transition-colors"
@@ -406,6 +400,7 @@ async function generateCard() {
       });
     }
 
+  
     // 5. Hotbar (Languages) - Transparent Background
     console.log('Capturing Hotbar (Transparent Background)...');
     const hotbarEl = await page.$('#card-hotbar .mc-panel') || await page.$('#card-hotbar');
@@ -422,8 +417,10 @@ async function generateCard() {
         document.body.style.backgroundColor = '';
         document.body.style.backgroundImage = '';
       });
-    }
+
+    }      
     */
+
 
     // 6. Complete All-In-One Profile Card with Wallpaper Frame & Zero Jitter
     console.log('Capturing Complete Card with Wallpaper Frame & Zero Jitter (25 frames, 10 FPS)...');
