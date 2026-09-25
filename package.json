@@ -4,7 +4,8 @@
   "description": "Minecraft-themed animated contribution grid for GitHub profile",
   "main": "scripts/render-card.js",
   "scripts": {
-    "generate": "node scripts/render-card.js"
+    "generate": "node scripts/render-card.js",
+    "prefetch:icons": "node scripts/language-icons.js"
   },
   "dependencies": {
     "dotenv": "^16.4.7",

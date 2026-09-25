@@ -113,9 +113,15 @@ async function fetchUserLanguages() {
   const langMap = new Map();
   let totalBytes = 0;
 
+  const EXCLUDED_LANGUAGES = new Set([
+    'Procfile', 'Dockerfile', 'Makefile', 'CMake', 'Markdown',
+    'YAML', 'JSON', 'TOML', 'XML', 'Other'
+  ]);
+
   for (const repo of repos) {
     for (const edge of repo.languages.edges) {
       const { name, color } = edge.node;
+      if (EXCLUDED_LANGUAGES.has(name)) continue;
       const size = edge.size;
       totalBytes += size;
       if (!langMap.has(name)) {
@@ -132,6 +138,10 @@ async function fetchUserLanguages() {
       percent: Math.round((l.size / totalBytes) * 100),
       exactPercent: ((l.size / totalBytes) * 100).toFixed(1)
     }));
+
+  for (const l of sorted) {
+    console.log(`  - ${l.name}: ${l.exactPercent}% (${(l.size / 1024).toFixed(1)} KB)`);
+  }
 
   return sorted;
 }
@@ -310,6 +320,7 @@ if (require.main === module) {
       console.log('Max Streak:', data.maxStreak, 'days');
       console.log('Weeks for grid:', data.gridWeeks.length);
       console.log('Max count in grid:', data.maxCountInGrid);
+      console.log('Top Languages:', data.languages.map(l => `${l.name} (${l.exactPercent}%)`).join(', '));
     })
     .catch(console.error);
 }
